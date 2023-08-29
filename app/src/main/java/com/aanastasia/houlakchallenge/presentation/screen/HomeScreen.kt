@@ -8,7 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    //onArtistDetail: () -> Unit, //todo ir al detalle de un artista
+    //onArtistDetail: () -> Unit, //todo navigate to artist detail screen
 ) {
 
     HomeScreenContent(
