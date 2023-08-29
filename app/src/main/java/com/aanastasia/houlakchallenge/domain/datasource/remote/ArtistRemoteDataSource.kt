@@ -9,5 +9,4 @@ interface ArtistRemoteDataSource {
 
     suspend fun searchArtist(artist: String) : List<ApiArtist>
 
-
 }

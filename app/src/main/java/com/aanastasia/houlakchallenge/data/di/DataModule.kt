@@ -1,6 +1,9 @@
 package com.aanastasia.houlakchallenge.data.di
 
+import android.util.Log
+import com.aanastasia.houlakchallenge.data.api.AccessTokenApiService
 import com.aanastasia.houlakchallenge.data.api.ApiService
+import com.aanastasia.houlakchallenge.domain.repository.AccessTokenRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -29,21 +33,24 @@ object DataModule {
     @Provides
     fun provideApiService(client: OkHttpClient) : ApiService {
         return Retrofit.Builder().baseUrl(ApiService.BASE_URL).client(client)
+            .addConverterFactory(MoshiConverterFactory.create())
             .build().create(ApiService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideApiService2(client: OkHttpClient): ApiService {
-        return Retrofit.Builder().baseUrl(ApiService.BASE_URL).client(client)
+    fun provideAccessTokenApiService(client: OkHttpClient) : AccessTokenApiService {
+        val newClient = client.newBuilder()
+            .addInterceptor{ chain ->
+                val request = chain.request().newBuilder()
+                    .build()
+                    chain.proceed(request)
+            }
+            .build()
+
+        return Retrofit.Builder().baseUrl(AccessTokenApiService.BASE_URL).client(newClient)
             .addConverterFactory(MoshiConverterFactory.create())
-            .build().create(ApiService::class.java)
+            .build().create(AccessTokenApiService::class.java)
     }
-
-
-
-//    @Singleton
-//    @Provides
-//    fun provide
 
 }

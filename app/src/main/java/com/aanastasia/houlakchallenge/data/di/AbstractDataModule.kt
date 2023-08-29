@@ -1,6 +1,8 @@
 package com.aanastasia.houlakchallenge.data.di
 
+import com.aanastasia.houlakchallenge.data.datasource.AccessTokenRemoteSourceImpl
 import com.aanastasia.houlakchallenge.data.datasource.ArtistRemoteDataSourceImpl
+import com.aanastasia.houlakchallenge.domain.datasource.remote.AccessTokenRemoteSource
 import com.aanastasia.houlakchallenge.domain.datasource.remote.ArtistRemoteDataSource
 import dagger.Binds
 import dagger.Module
@@ -17,6 +19,14 @@ interface AbstractDataModule {
     abstract fun bindArtistRemoteDataSource(
         artistRemoteDataSourceImpl: ArtistRemoteDataSourceImpl
     ) : ArtistRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindAccessTokenRemoteSource(
+        accessTokenRemoteSource: AccessTokenRemoteSourceImpl
+    ) : AccessTokenRemoteSource
+
+
 
 
 }
