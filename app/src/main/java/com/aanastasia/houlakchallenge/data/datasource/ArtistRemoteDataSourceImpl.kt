@@ -9,9 +9,8 @@ import com.aanastasia.houlakchallenge.domain.model.Artist
 import javax.inject.Inject
 
 class ArtistRemoteDataSourceImpl @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : ArtistRemoteDataSource {
-
 
 
     override suspend fun getArtist(id: String): Artist {
