@@ -14,8 +14,7 @@ class AccessTokenRemoteSourceImpl @Inject constructor(
 
     override suspend fun getAccessToken(): AccessToken {
         return try {
-            val request = AccessTokenRequest()
-            val response = accessTokenApiService.getAccessToken(request)
+            val response = accessTokenApiService.getAccessToken()
             if(response.isSuccessful){
                 val accessTokenResponse = response.body()
                 accessTokenResponse?.toDomain()

@@ -4,6 +4,8 @@ import com.aanastasia.houlakchallenge.data.api.model.request.AccessTokenRequest
 import com.aanastasia.houlakchallenge.data.api.model.response.AccessTokenResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -11,13 +13,18 @@ import retrofit2.http.POST
 interface AccessTokenApiService {
 
     companion object{
-        const val BASE_URL = "https://accounts.spotify.com/api/token/"
+        const val BASE_URL = "https://accounts.spotify.com/api/"
+        const val CLIENT_ID = "5d5046fdf20e485caaf9c20cc09d26be"
+        const val CLIENT_SECRET = "67fa72f4d4424718ac7d342fe062ab3c"
     }
 
-    @Headers("Content-Type: application/x-www-form-urlencoded", "authorization: basic")
-    @POST("https://accounts.spotify.com/api/token/")
+    @FormUrlEncoded
+    @POST("token")
     suspend fun getAccessToken(
-        @Body request: AccessTokenRequest
+        @Header("Content-Type") contentType: String = "application/x-www-form-urlencoded",
+        @Field("grant_type") grantType: String = "client_credentials",
+        @Field("client_id") clientId: String = CLIENT_ID,
+        @Field("client_secret") clientSecret: String = CLIENT_SECRET,
     ): Response<AccessTokenResponse>
 
 }
