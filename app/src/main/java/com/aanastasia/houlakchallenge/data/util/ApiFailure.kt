@@ -1,9 +1,14 @@
 package com.aanastasia.houlakchallenge.data.util
 
-sealed class ApiFailure : Throwable() {
+sealed class ApiFailure : LayerFailure.DataFailure() {
+    data class ServiceUnavailableError(val serverMessage: String? = null) : ApiFailure()
+    object JsonParseError : ApiFailure()
+    object ExceptionError : ApiFailure()
+}
 
-    data class Service(val errorCode: Int, val errorMessage: String?) : ApiFailure()
-    object Unknown : ApiFailure()
-    object Network : ApiFailure()
-
+fun ApiFailure.toDataFailure(): LayerFailure.DataFailure {
+    return when (this) {
+        is ApiFailure.ServiceUnavailableError -> DataFailure.ServiceUnavailableError
+        else -> DataFailure.Unknown
+    }
 }

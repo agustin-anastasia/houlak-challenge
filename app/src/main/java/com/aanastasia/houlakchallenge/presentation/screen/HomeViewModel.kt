@@ -22,10 +22,17 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    fun onSearchTextChange(query: String){
+        uiState = uiState.copy(
+            searchQuery = query
+        )
+    }
+
 }
 
 
 data class HomeUiState(
+    val searchQuery: String = "",
     val selectedArtist: String = "",
     val artists: List<String> = emptyList(),
 )

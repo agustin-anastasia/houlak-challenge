@@ -10,24 +10,24 @@ class ApiCallHandlerImpl @Inject constructor(
     private val dispatcher : CoroutineDispatcher
 ) : ApiCallHandler{
 
-    override suspend fun <T> process(apiCall: suspend () -> Response<T>): Result<T> =
-        withContext(dispatcher) {
+    override suspend fun <T> process(apiCall: suspend () -> Response<T>): Result<T> {
+        return withContext(dispatcher) {
             try {
-                val response = apiCall()
-                if (response.isSuccessful){
-                    Result.success(value = response.body()!!)
+                val response = apiCall.invoke()
+                if (response.isSuccessful) {
+                    return@withContext Result.success(value = response.body()!!)
                 } else {
-                    Result.failure(
-                        exception = ApiFailure.Service(
-                            errorCode = response.code(),
-                            errorMessage = response.message()
-                        )
-                    )
+                    return@withContext Result.failure(ApiFailure.ServiceUnavailableError())
                 }
             } catch (throwable: Throwable) {
-                Log.e("ApiCallHandlerImpl", "process()",throwable)
-                Result.failure(exception = throwable)
+                Log.e(TAG, "process():", throwable)
+                return@withContext Result.failure(ApiFailure.ExceptionError)
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "ApiCallHandlerImpl"
+    }
 
 }

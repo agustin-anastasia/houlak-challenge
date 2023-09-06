@@ -23,16 +23,25 @@ class MainViewModel @Inject constructor(
     init {
         Log.v("---- MainViewVodel", "---- MainViewModel")
         viewModelScope.launch{
-            runCatching { getAccessToken }
+            runCatching { getAccessToken() }
                 .onSuccess {
-                    Log.v("agustin", it.invoke().accessToken)
+                    Log.v("agustin", "ANTES TOKEN")
+                    Log.v("agustin", it.toString())
                     _uiState.update { MainUiState.Authorized }
                 }
+                .onFailure {
+                    Log.v("agustin", "FAILUREEEEEEEEEEE")
+                }
         }
+    }
+
+    private fun setAuthToken(){
+
     }
 }
 
 sealed interface MainUiState {
     object Authorized : MainUiState
     object NonAuthorized : MainUiState
+
 }

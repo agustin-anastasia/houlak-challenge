@@ -28,13 +28,6 @@ interface AbstractDataModule {
         accessTokenRemoteSource: AccessTokenRemoteSourceImpl
     ) : AccessTokenRemoteSource
 
-    @Binds
-    @Singleton
-    abstract fun bindApiCallHandler(
-        apiCallHandlerImpl: ApiCallHandlerImpl
-    ): ApiCallHandler
-
-
 
 
 }
