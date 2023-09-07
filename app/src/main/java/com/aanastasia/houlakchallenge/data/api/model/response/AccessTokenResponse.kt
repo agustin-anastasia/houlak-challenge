@@ -1,17 +1,20 @@
 package com.aanastasia.houlakchallenge.data.api.model.response
 
 import com.aanastasia.houlakchallenge.domain.model.AccessToken
+import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.Duration
 
-@Serializable
+
 data class AccessTokenResponse(
-    @SerialName("access_token")
+    @SerializedName("access_token")
     val accessToken : String,
-    @SerialName("token_type")
+    @SerializedName("token_type")
     val tokenType : String,
-    @SerialName("expires_in")
+    @SerializedName("expires_in")
     val expiresIn: Int,
 )
 

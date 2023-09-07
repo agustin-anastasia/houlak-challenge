@@ -3,6 +3,7 @@ package com.aanastasia.houlakchallenge
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aanastasia.houlakchallenge.domain.model.toPresentation
 import com.aanastasia.houlakchallenge.domain.usecase.GetAccessToken
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,16 +24,24 @@ class MainViewModel @Inject constructor(
     init {
         Log.v("---- MainViewVodel", "---- MainViewModel")
         viewModelScope.launch{
-            runCatching { getAccessToken }
+            runCatching { getAccessToken() }
                 .onSuccess {
-                    Log.v("agustin", it.invoke().accessToken)
+                    Log.v("AGUS" , it.accessToken)
                     _uiState.update { MainUiState.Authorized }
                 }
+                .onFailure {
+                    Log.v("agustin", "FAILUREEEEEEEEEEE")
+                }
         }
+    }
+
+    private fun setAuthToken(){
+
     }
 }
 
 sealed interface MainUiState {
     object Authorized : MainUiState
     object NonAuthorized : MainUiState
+
 }

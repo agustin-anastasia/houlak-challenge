@@ -1,9 +1,10 @@
 package com.aanastasia.houlakchallenge.data.api.model.request
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Keep
 data class AccessTokenRequest(
     @SerialName("grant_type")
     val grant_type : String = "client_credentials",
