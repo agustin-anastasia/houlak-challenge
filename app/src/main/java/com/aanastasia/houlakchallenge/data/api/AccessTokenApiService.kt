@@ -28,6 +28,6 @@ interface AccessTokenApiService {
         @Field("grant_type") grantType: String = "client_credentials",
         @Field("client_id") clientId: String = CLIENT_ID,
         @Field("client_secret") clientSecret: String = CLIENT_SECRET,
-    ): Response<Any>
+    ): Response<AccessTokenResponse>
 
 }

@@ -23,12 +23,8 @@ class AccessTokenRemoteSourceImpl @Inject constructor(
             .process { accessTokenApiService.getAccessToken() }
             .mapCatching { response ->
                 val jsonString = gson.toJson(response)
-//                val accessTokenResponse = gson.fromJson(jsonString, AccessTokenResponse::class.java)
-//                val varia = accessResponseList?.get(0)
-//                varia!!.toDomain()
-                val mcList: List<AccessTokenResponse> = Arrays.asList<AccessTokenResponse>(*myArray)
-//                val mcList: List<AccessTokenResponse> = Arrays.asList(myArray)
-                mcList.get(0).toDomain()
+                val accessTokenResponse = gson.fromJson(jsonString, AccessTokenResponse::class.java)
+                accessTokenResponse.toDomain()
             }
             .getOrThrow()
     } catch (throwable: ApiFailure){

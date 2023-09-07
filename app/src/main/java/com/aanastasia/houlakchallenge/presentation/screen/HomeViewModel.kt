@@ -24,7 +24,9 @@ class HomeViewModel @Inject constructor(
 
     fun onSearchTextChange(query: String){
         uiState = uiState.copy(
-            searchQuery = query
+            searchQuery = query,
+            selectedArtist = "",
+            artists = emptyList(),
         )
     }
 

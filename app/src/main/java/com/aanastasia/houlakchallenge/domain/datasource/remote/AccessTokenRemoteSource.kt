@@ -5,6 +5,6 @@ import com.aanastasia.houlakchallenge.domain.model.AccessToken
 
 interface AccessTokenRemoteSource {
 
-    suspend fun getAccessToken() : Any
+    suspend fun getAccessToken() : AccessToken
 
 }
