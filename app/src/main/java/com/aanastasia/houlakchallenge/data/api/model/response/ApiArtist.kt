@@ -1,37 +1,44 @@
 package com.aanastasia.houlakchallenge.data.api.model.response
 
 import com.aanastasia.houlakchallenge.domain.model.Artist
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
+
 data class ApiArtist(
-    @SerialName("id")
+    @SerializedName("id")
     val id: String,
-    @SerialName("name")
+    @SerializedName("name")
     val name: String,
-    @SerialName("followers")
-    val followers: Int,
-    @SerialName("genres")
+    @SerializedName("followers")
+    val followers: Followers,
+    @SerializedName("genres")
     val genres: List<String>,
-    @SerialName("images")
+    @SerializedName("images")
     val image: List<ImageUrl>,
-    @SerialName("popularity")
+    @SerializedName("popularity")
     val popularity: Int,
 )
 
-@Serializable
 data class ImageUrl(
-    @SerialName("height")
+    @SerializedName("height")
     val height : Int,
-    @SerialName("url")
+    @SerializedName("url")
     val url : String,
-    @SerialName("width")
+    @SerializedName("width")
     val width : Int,
 )
 
+data class Followers(
+    @SerializedName("total")
+    val total : Int
+)
+
 fun ApiArtist.toDomain() = Artist(
-    id = this.id,
-    name = this.name,
-    imageUrl = this.image.toList()[0].url
+    id = id,
+    name = name,
+    followers = followers.total,
+    imageUrl = image,
+    popularity = popularity
 )

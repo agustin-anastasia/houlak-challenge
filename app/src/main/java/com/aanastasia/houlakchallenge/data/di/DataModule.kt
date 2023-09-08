@@ -1,6 +1,10 @@
 package com.aanastasia.houlakchallenge.data.di
 
+import android.content.Context
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.aanastasia.houlakchallenge.data.api.AccessTokenApiService
 import com.aanastasia.houlakchallenge.data.api.ApiService
 import com.aanastasia.houlakchallenge.data.util.ApiCallHandler
@@ -9,6 +13,7 @@ import com.aanastasia.houlakchallenge.domain.repository.AccessTokenRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -59,6 +64,7 @@ object DataModule {
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.HEADERS
         }
 
 
@@ -99,5 +105,14 @@ object DataModule {
             dispatcher = Dispatchers.IO
         )
     }
+
+    @Provides
+    @Singleton
+    fun providesDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        context.dataStore
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "prefs"
+    )
 
 }

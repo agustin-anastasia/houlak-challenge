@@ -1,26 +1,34 @@
 package com.aanastasia.houlakchallenge.domain.repository
 
-import android.content.Context
-import com.aanastasia.houlakchallenge.data.api.model.response.AccessTokenResponse
-import com.aanastasia.houlakchallenge.data.local.SharedPreferencesManager
+import com.aanastasia.houlakchallenge.domain.datasource.local.AccessTokenLocalDataSource
 import com.aanastasia.houlakchallenge.domain.datasource.remote.AccessTokenRemoteSource
 import com.aanastasia.houlakchallenge.domain.model.AccessToken
-import com.aanastasia.houlakchallenge.presentation.model.PAccessToken
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface AccessTokenRepository {
 
     suspend fun getAccessToken() : AccessToken
+    suspend fun saveToken(token: String)
+    suspend fun getToken(): Flow<String>
 
 }
 
 class AccessTokenRepositoryImpl @Inject constructor(
     private val accessTokenRemoteSource : AccessTokenRemoteSource,
+    private val accessTokenLocalDataSource: AccessTokenLocalDataSource
 ) : AccessTokenRepository {
 
     override suspend fun getAccessToken(): AccessToken {
         return accessTokenRemoteSource.getAccessToken()
+    }
+
+    override suspend fun saveToken(token: String) {
+        accessTokenLocalDataSource.saveToken(token)
+    }
+
+    override suspend fun getToken(): Flow<String> {
+        return accessTokenLocalDataSource.getToken()
     }
 
 

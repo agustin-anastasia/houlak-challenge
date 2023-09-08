@@ -1,47 +1,85 @@
 package com.aanastasia.houlakchallenge
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aanastasia.houlakchallenge.domain.model.toPresentation
 import com.aanastasia.houlakchallenge.domain.usecase.GetAccessToken
+import com.aanastasia.houlakchallenge.domain.usecase.GetArtist
+import com.aanastasia.houlakchallenge.domain.usecase.GetToken
+import com.aanastasia.houlakchallenge.domain.usecase.SaveAccessToken
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getAccessToken: GetAccessToken,
+    private val getArtist: GetArtist,
+    private val saveAccessToken: SaveAccessToken,
+    private val getToken: GetToken,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<MainUiState>(MainUiState.NonAuthorized)
-    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+    var uiState by mutableStateOf(MainUiState())
 
     init {
-        Log.v("---- MainViewVodel", "---- MainViewModel")
-        viewModelScope.launch{
-            runCatching { getAccessToken() }
+        getAuthAccessToken()
+
+        viewModelScope.launch(Dispatchers.IO){
+            runCatching {
+                getAccessToken()
+            }
                 .onSuccess {
-                    Log.v("AGUS" , it.accessToken)
-                    _uiState.update { MainUiState.Authorized }
+                    saveAccessToken(it.accessToken)
+                    getAuthToken()
+                    callGetArtist("0du5cEVh5yTK9QJze8zA0C")
                 }
                 .onFailure {
-                    Log.v("agustin", "FAILUREEEEEEEEEEE")
+                    Log.e("error", it.message!!)
                 }
         }
     }
 
-    private fun setAuthToken(){
+    private fun getAuthAccessToken() {
+        viewModelScope.launch {
+            runCatching {
+                getAccessToken()
+            }
+                .onSuccess {
+                    saveAccessToken(it.accessToken)
+                }
+        }
+    }
 
+    private fun getAuthToken() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getToken().collect{
+                uiState = uiState.copy(
+                    token = it
+                )
+            }
+        }
+    }
+
+    private fun callGetArtist(id: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching {
+                Log.v("MAINVIEWMODEL",uiState.token)
+                getArtist(uiState.token, id)
+            }
+                .onSuccess {
+                    Log.v("AGUS", it.name)
+                }
+                .onFailure {
+                    Log.v("AGUS", it.message!!)
+                }
+        }
     }
 }
 
-sealed interface MainUiState {
-    object Authorized : MainUiState
-    object NonAuthorized : MainUiState
-
-}
+data class MainUiState(
+    val token: String = ""
+)
