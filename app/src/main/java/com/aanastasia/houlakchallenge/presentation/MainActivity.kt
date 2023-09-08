@@ -27,10 +27,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var uiState: MainUiState by mutableStateOf(MainUiState.NonAuthorized)
 
         setContent {
-            val state = viewModel.uiState.collectAsState()
             HoulakChallengeTheme(
                 darkTheme = false
             ) {

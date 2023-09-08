@@ -8,6 +8,7 @@ import com.aanastasia.houlakchallenge.data.api.model.response.ApiTopTracksRespon
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -28,7 +29,10 @@ interface ApiService {
     ): Response<ApiArtists>
 
     @GET("artists/{id}")
-    suspend fun getArtist(@Path("id") artistId: String): Response<ApiArtist>
+    suspend fun getArtist(
+        @Header("Authorization") accessToken: String,
+        @Path("id") artistId: String,
+    ): Response<ApiArtist>
 
     @GET("artists/{id}/top-tracks")
     suspend fun getArtistTopTracks(

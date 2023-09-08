@@ -6,6 +6,6 @@ import javax.inject.Inject
 class SearchArtist @Inject constructor(
     private val artistRepository: ArtistRepository
 ) {
-    suspend operator fun invoke(artist: String) = artistRepository.searchArtist(artist)
+    suspend operator fun invoke(artist: String, token: String) = artistRepository.searchArtist(artist, token)
 
 }

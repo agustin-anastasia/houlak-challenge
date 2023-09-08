@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 interface ArtistRepository {
 
-    suspend fun getArtist(id: String) : Artist
+    suspend fun getArtist(token: String, id: String) : Artist
 
-    suspend fun searchArtist(artist: String) : List<ApiArtist>
+    suspend fun searchArtist(token: String, artist: String) : List<ApiArtist>
 
 }
 
@@ -18,12 +18,12 @@ class ArtistRepositoryImpl @Inject constructor(
 ) : ArtistRepository {
 
 
-    override suspend fun getArtist(id: String) : Artist {
-        return artistRemoteDataSource.getArtist(id)
+    override suspend fun getArtist(token: String, id: String) : Artist {
+        return artistRemoteDataSource.getArtist(token, id)
     }
 
-    override suspend fun searchArtist(artist: String): List<ApiArtist> {
-        return artistRemoteDataSource.searchArtist(artist)
+    override suspend fun searchArtist(token: String, artist: String): List<ApiArtist> {
+        return artistRemoteDataSource.searchArtist(token, artist)
     }
 
 }
