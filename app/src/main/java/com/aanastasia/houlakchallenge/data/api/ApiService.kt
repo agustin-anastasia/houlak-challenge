@@ -1,15 +1,11 @@
 package com.aanastasia.houlakchallenge.data.api
 
-import com.aanastasia.houlakchallenge.data.api.model.request.AccessTokenRequest
-import com.aanastasia.houlakchallenge.data.api.model.response.AccessTokenResponse
 import com.aanastasia.houlakchallenge.data.api.model.response.ApiArtist
 import com.aanastasia.houlakchallenge.data.api.model.response.ApiArtists
 import com.aanastasia.houlakchallenge.data.api.model.response.ApiTopTracksResponse
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -23,9 +19,9 @@ interface ApiService {
 
     @GET("search")
     suspend fun searchArtists(
+        @Header("Authorization") accessToken: String,
         @Query("q") query : String,
         @Query("type") type: String = TYPE,
-        @Query("market") market: String = US_MARKET,
     ): Response<ApiArtists>
 
     @GET("artists/{id}")
@@ -36,6 +32,7 @@ interface ApiService {
 
     @GET("artists/{id}/top-tracks")
     suspend fun getArtistTopTracks(
+        @Header("Authorization") accessToken: String,
         @Path("id") artistId: String,
         @Query("market") market: String = US_MARKET
     ): Response<ApiTopTracksResponse>

@@ -1,16 +1,16 @@
 package com.aanastasia.houlakchallenge.data.api.model.response
 
 import com.aanastasia.houlakchallenge.domain.model.Track
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.time.Duration
 
-@Serializable
 data class ApiTrack(
-    @SerialName("name")
+    @SerializedName("name")
     val name: String,
-    @SerialName("duration_ms")
-    val duration: Duration,
+    @SerializedName("duration_ms")
+    val duration: Int,
 )
 
 fun ApiTrack.toDomain() = Track(

@@ -16,7 +16,7 @@ data class ApiArtist(
     @SerializedName("genres")
     val genres: List<String>,
     @SerializedName("images")
-    val image: List<ImageUrl>,
+    val image: ArrayList<ImageUrl>,
     @SerializedName("popularity")
     val popularity: Int,
 )
@@ -40,5 +40,6 @@ fun ApiArtist.toDomain() = Artist(
     name = name,
     followers = followers.total,
     imageUrl = image,
-    popularity = popularity
+    popularity = popularity,
+    genres = genres
 )

@@ -4,5 +4,5 @@ import java.time.Duration
 
 data class Track(
     val name : String,
-    val duration : Duration,
+    val duration : Int,
 )

@@ -18,7 +18,6 @@ class AccessTokenLocalDataSourceImpl @Inject constructor(
 ) : AccessTokenLocalDataSource {
 
     override suspend fun saveToken(token: String) {
-        Log.v("SAVE TOKEN DATASOURCE", token)
         withContext(Dispatchers.IO){
             val key = stringPreferencesKey(ACCESS_TOKEN)
             dataStore.edit { preferences ->
