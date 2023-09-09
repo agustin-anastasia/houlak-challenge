@@ -31,23 +31,4 @@ class AccessTokenRemoteSourceImpl @Inject constructor(
         throw throwable
     }
 
-    /*override suspend fun getAccessToken(): AccessToken {
-        return try {
-            val request = AccessTokenRequest()
-            val response = accessTokenApiService.getAccessToken()
-            if(response.isSuccessful){
-                val accessTokenResponse = response.body()
-                accessTokenResponse?.toDomain()
-                    ?: throw Throwable(message = "API response is null")
-            } else {
-                throw Throwable(
-                    message = "API call failed with status code ${response.code()}"
-                )
-            }
-        } catch (t: Throwable){
-            Log.e("getAccessToken", t.message, t)
-            throw t
-        }
-    }*/
-
 }

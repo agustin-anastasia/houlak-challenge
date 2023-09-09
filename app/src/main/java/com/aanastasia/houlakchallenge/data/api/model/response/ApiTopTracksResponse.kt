@@ -1,11 +1,11 @@
 package com.aanastasia.houlakchallenge.data.api.model.response
 
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
 data class ApiTopTracksResponse(
-    @SerialName("tracks")
+    @SerializedName("tracks")
     val tracks: List<ApiTrack>,
 
 )
